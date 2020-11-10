@@ -1,0 +1,11 @@
+﻿<Window x:Class="ArtSoftWebBrowser2019.LinkInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="LinkInfo" Height="80" Width="550" WindowStyle="None">
+    <StackPanel Margin="10">
+        <TextBlock FontWeight="Bold" Name="tbName"/>
+        <TextBlock Name="tbUrl"/>
+        <TextBlock Name="tbInfo"/>
+        <TextBlock Name="tbDesc"/>
+    </StackPanel>
+</Window>

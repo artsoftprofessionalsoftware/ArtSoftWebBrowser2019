@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\Back.gif" />
+    <None Remove="Images\Delete.ico" />
+    <None Remove="Images\Edit.ico" />
+    <None Remove="Images\Forward.gif" />
+    <None Remove="Images\Go.gif" />
+    <None Remove="Images\Home.gif" />
+    <None Remove="Images\NewRec.ico" />
+    <None Remove="Images\Open.ico" />
+    <None Remove="Images\Refresh.ico" />
+    <None Remove="Resources\AS.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0-rc.2.20475.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0-rc.2.20475.6" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.674-prerelease" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebBrowserAddIn\WebBrowserAddIn.csproj" />
+    <ProjectReference Include="..\WebBrowserDataBase\WebBrowserDataBase.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Back.gif" />
+    <Resource Include="Images\Delete.ico" />
+    <Resource Include="Images\Edit.ico" />
+    <Resource Include="Images\Forward.gif" />
+    <Resource Include="Images\Go.gif" />
+    <Resource Include="Images\Home.gif" />
+    <Resource Include="Images\NewRec.ico" />
+    <Resource Include="Images\Open.ico" />
+    <Resource Include="Images\Refresh.ico" />
+    <Resource Include="Resources\AS.png" />
+  </ItemGroup>
+
+</Project>

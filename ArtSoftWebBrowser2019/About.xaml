@@ -1,0 +1,11 @@
+﻿<Window x:Class="ArtSoftWebBrowser2019.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About" Height="200" Width="300" WindowStartupLocation="CenterScreen" Topmost="True" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <StackPanel Orientation="Vertical">
+        <Label Content="ArtSoftWebBrowser2019" HorizontalAlignment="Center"/>
+        <Label Content="www.artsoft.info.pl" HorizontalAlignment="Center"/>
+        <Label Content="2020" HorizontalAlignment="Center"/>
+        <Button Name="btnOk" Content="OK" Width="50" Click="btnOk_Click"/>
+    </StackPanel>
+</Window>

@@ -1,0 +1,16 @@
+﻿<Window x:Class="ArtSoftWebBrowser2019.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ArtSoftWebBrowser2019" Height="350" Width="525" WindowState="Maximized"
+        Icon="pack://application:,,,/Resources/AS.png"        
+        Loaded="Window_Loaded"
+        PreviewKeyDown="Window_PreviewKeyDown">
+    <DockPanel Name="dpMain" LastChildFill="True">
+        <Menu Name="mnMain" DockPanel.Dock="Top">
+            <MenuItem Name="miBrowser" Header="Browser" Click="miBrowser_Click"/>
+            <MenuItem Name="miLinks" Header="Links" Click="miLinks_Click"/>
+            <MenuItem Name="miFunctions" Header="Functions" Click="miFunctions_Click"/>
+            <MenuItem Name="miAbout" Header="About" Click="miAbout_Click"/>
+        </Menu>
+    </DockPanel>
+</Window>
