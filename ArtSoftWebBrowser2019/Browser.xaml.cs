@@ -9,6 +9,8 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Microsoft.Web.WebView2.Wpf;
 using Microsoft.Web.WebView2.Core;
+using System.Diagnostics;
+using System.Configuration;
 using WebBrowserDataBase;
 
 namespace ArtSoftWebBrowser2019
@@ -159,7 +161,8 @@ namespace ArtSoftWebBrowser2019
                 script += "for (var i = 0; i < links.length; i++)";
                 script += "{";
                 script += "   var link = links[i];";
-                script += "   link.onmouseover = function(e){ lh.OnMouseOver(e.srcElement.href, e.screenY, e.screenX) };";
+                script += "   link.onmouseover = function(e){ lh.OnMouseOver(e.srcElement.title, e.srcElement.href, e.screenY, e.screenX) };";
+                script += "   link.oncontextmenu = function(e){ lh.OnContextMenu(e.srcElement.href, e.screenY, e.screenX) };";
                 script += "   link.onmouseout = function(){ lh.OnMouseOut() };";
                 script += "}";
 
@@ -180,13 +183,18 @@ namespace ArtSoftWebBrowser2019
         }
 
         public static LinkInfo li;
+        public static string ltitle;
+        public static string lurl;
 
         [ClassInterface(ClassInterfaceType.AutoDual)]
         [ComVisible(true)]
         public class LinkHandler
         {
-            public void OnMouseOver(string url, int y, int x)
+            public void OnMouseOver(string title, string url, int y, int x)
             {
+                ltitle = title;
+                lurl = url;
+
                 if (li == null)
                 {
                     Link lnk = null;
@@ -215,8 +223,94 @@ namespace ArtSoftWebBrowser2019
                 }
             }
 
+            public void OnContextMenu(string url, int y, int x)
+            {
+                var menu = new ContextMenu();
+
+                var miLink = new MenuItem();
+                miLink.Header = "Link";
+                miLink.Click += ContextMenu_LinkClick;
+                menu.Items.Add(miLink);
+
+                var miOpen = new MenuItem();
+                miOpen.Header = "Open";
+                miOpen.Click += ContextMenu_OpenClick;
+                menu.Items.Add(miOpen);
+
+                menu.IsOpen = true;
+            }
+
+            private void ContextMenu_LinkClick(object sender, RoutedEventArgs e)
+            {
+                if (lurl != null)
+                {
+                    Link();
+                }
+            }
+
+            private void Link()
+            {
+                if (Global.AddLink == null && Global.EditLink == null)
+                {
+                    try
+                    {
+                        Link lnk = Global.DataBase.Link.Where(l => l.Url == lurl).FirstOrDefault();
+                        if (lnk == null)
+                        {
+                            lnk = new Link();
+                            lnk.Name = ltitle;
+                            lnk.Url = lurl;
+                            lnk.Description = string.Empty;
+                            lnk.Added = false;
+                            lnk.Time = 0;
+                            AddLink al = new AddLink();
+                            Global.AddLink = al;
+                        }
+                        if (!lnk.Added)
+                        {
+                            lnk.Type = Library.GetDictValue(Global.Cache, "type");
+                            lnk.Path = Library.GetDictValue(Global.Cache, "path");
+                            lnk.Active = true;
+                            AddLink al = new AddLink();
+                            Global.AddLink = al;
+                            al.Init(lnk);
+                            al.Show();
+                        }
+                        else
+                        {
+                            EditLink el = new EditLink();
+                            Global.EditLink = el;
+                            el.Init(lnk);
+                            el.Show();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                }
+            }
+
+            private void ContextMenu_OpenClick(object sender, RoutedEventArgs e)
+            {
+                if (lurl != null)
+                {
+                    OpenNewWindow();
+                }
+            }
+
+            private void OpenNewWindow()
+            {
+                var edgePrwsPath = ConfigurationManager.AppSettings["EdgeBrwsPath"];
+                ProcessStartInfo procStartInfo = new ProcessStartInfo(edgePrwsPath, lurl);
+                Process.Start(procStartInfo);
+            }
+
             public void OnMouseOut()
             {
+                ltitle = null;
+                lurl = null;
+
                 if (li != null)
                 {
                     li.Hide();
